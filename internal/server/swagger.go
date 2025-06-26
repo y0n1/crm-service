@@ -28,9 +28,13 @@ func setupSwaggerUI(r chi.Router) {
 	}
 
 	r.Get("/swagger-ui/*", http.StripPrefix("/swagger-ui/", http.FileServer(http.FS(swaggerUIRoot))).ServeHTTP)
+	
+	r.Get("/swagger-ui", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/swagger-ui/", http.StatusMovedPermanently)
+	})
 
 	// Redirect root to Swagger UI for convenience
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/swagger-ui/*", http.StatusMovedPermanently)
+		http.Redirect(w, r, "/swagger-ui/", http.StatusMovedPermanently)
 	})
 }
