@@ -15,7 +15,7 @@ type CustomerAggregate struct {
 }
 
 func NewCustomerAggregate(customer *entities.Customer) (*CustomerAggregate, error) {
-	if err := validateRequiredFields(customer.FirstName, customer.LastName, customer.Email, customer.Phone); err != nil {
+	if err := validateRequiredFields(customer.FirstName, customer.LastName, customer.Email); err != nil {
 		return nil, err
 	}
 
@@ -28,7 +28,7 @@ func NewCustomerAggregate(customer *entities.Customer) (*CustomerAggregate, erro
 	}, nil
 }
 
-func validateRequiredFields(firstName, lastName, email, phone string) error {
+func validateRequiredFields(firstName, lastName, email string) error {
 	var zeroString string
 
 	if firstName == zeroString {
@@ -43,25 +43,30 @@ func validateRequiredFields(firstName, lastName, email, phone string) error {
 		return fmt.Errorf("cannot create customer: missing email address")
 	}
 
-	if phone == zeroString {
-		return fmt.Errorf("cannot create customer: missing phone number")
-	}
-
 	return nil
 }
 
 func (c *CustomerAggregate) Update(firstName, lastName, role, email, phone string, contacted bool) error {
-	if err := validateRequiredFields(firstName, lastName, email, phone); err != nil {
-		return err
+	var zeroString string
+
+	if firstName != zeroString {
+		c.Customer.FirstName = firstName
 	}
 
-	c.Customer.FirstName = firstName
-	c.Customer.LastName = lastName
-	c.Customer.Role = role
-	c.Customer.Email = email
-	c.Customer.Phone = phone
-	c.Contacted = contacted
+	if lastName != zeroString {
+		c.Customer.LastName = lastName
+	}
+	if role != zeroString {
+		c.Customer.Role = role
+	}
+	if email != zeroString {
+		c.Customer.Email = email
+	}
+	if phone != zeroString {
+		c.Customer.Phone = phone
+	}
 
+	c.Contacted = contacted
 	c.Metadata.UpdatedAt = time.Now()
 	return nil
 }

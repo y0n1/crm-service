@@ -34,6 +34,8 @@ func (s Server) Run() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
+	setupSwaggerUI(r)
+	
 	r.Route("/v1", func(r chi.Router) {
 		r.Get(list.UrlPattern, list.MakeHandler(s.ctx, db, logger))
 		r.Get(get.UrlPattern, get.MakeHandler(s.ctx, db, logger))
@@ -42,6 +44,8 @@ func (s Server) Run() {
 		r.Delete(delete.UrlPattern, delete.MakeHandler(s.ctx, db, logger))
 	})
 
-	logger.Info("Server starting on port :8080")
-	http.ListenAndServe(":8080", r)
+	logger.Info("Server starting on port 8888")
+	if err := http.ListenAndServe(":8888", r); err != nil {
+		logger.Error(err.Error())
+	}
 }
