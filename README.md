@@ -24,11 +24,8 @@ This project provides a RESTful API for managing customer data, including creati
 
 ### Running the Server
 
-To run the server locally:
-
-```sh
-go run cmd/main.go
-```
+1. Seed the DB with: `./scripts/dbseed.sh`
+2. Run the server locally with : `go run cmd/main.go`
 
 The server will start on `http://localhost:8888` by default.
 The Swagger UI describing the entire API can be accessed through the same URL or `http://localhost:8888/swagger-ui`
@@ -81,7 +78,7 @@ curl -X 'POST' \
 
 ```sh
 curl -X 'PATCH' \
-  'http://localhost:8888/v1/customers/0197ab76-13ac-7a77-b1f5-c98a07560281' \
+  'http://localhost:8888/v1/customers/0197ab80-571d-727c-a55e-653f85a17854' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -92,7 +89,7 @@ curl -X 'PATCH' \
 ### Example: Delete Customer
 
 ```sh
-curl -X 'DELETE' 'http://localhost:8888/v1/customers/0197ab82-d19c-746c-8cf0-9eb5c8d8b110'
+curl -X 'DELETE' 'http://localhost:8888/v1/customers/0197ab80-571d-727c-a55e-653f85a17854'
 ```
 
 ---
@@ -112,7 +109,7 @@ internal/        # Application core logic
 
 ## Development
 
-- Instal [air](https://github.com/air-verse/air): `go install github.com/air-verse/air@latest`
+- Install [air](https://github.com/air-verse/air): `go install github.com/air-verse/air@latest`
 - Start the server with `air`
 - Code is formatted with `gofmt`.
 - Lint with `golangci-lint run`.
